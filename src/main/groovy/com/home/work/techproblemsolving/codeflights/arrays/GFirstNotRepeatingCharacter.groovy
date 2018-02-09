@@ -1,4 +1,4 @@
-package com.home.work.techproblemsolving.arrays
+package com.home.work.techproblemsolving.codeflights.arrays
 
 /**
  * Puneethkumar ck
