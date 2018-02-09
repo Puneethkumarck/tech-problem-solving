@@ -28,9 +28,36 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
+
 		<dependency>
 			<groupId>org.codehaus.groovy</groupId>
-			<artifactId>groovy</artifactId>
+			<artifactId>groovy-all</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.spockframework</groupId>
+			<artifactId>spock-core</artifactId>
+			<version>${spock.version}</version>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy-all</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.spockframework</groupId>
+			<artifactId>spock-spring</artifactId>
+			<version>${spock.version}</version>
+			<scope>compile</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>org.codehaus.groovy</groupId>
+					<artifactId>groovy-all</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
@@ -41,6 +68,8 @@
 	</dependencies>
 
 	<build>
+		<sourceDirectory>${project.basedir}/src/main/groovy</sourceDirectory>
+		<testSourceDirectory>${project.basedir}/src/test/groovy</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -55,13 +84,29 @@
 						<goals>
 							<goal>addSources</goal>
 							<goal>addTestSources</goal>
-							<goal>generateStubs</goal>
 							<goal>compile</goal>
-							<goal>testGenerateStubs</goal>
 							<goal>testCompile</goal>
-							<goal>removeStubs</goal>
-							<goal>removeTestStubs</goal>
 						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19.1</version>
+				<executions>
+					<execution>
+						<id>test-spec</id>
+						<goals>
+							<goal>test</goal>
+						</goals>
+						<configuration>
+							<includes>
+								<include>**/*Spec.*</include>
+								<include>**/*Test.*</include>
+							</includes>
+						</configuration>
 					</execution>
 				</executions>
 			</plugin>
